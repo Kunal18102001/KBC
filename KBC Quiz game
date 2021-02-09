@@ -1,0 +1,62 @@
+    def __init__(self):
+        pygame.init()
+        pygame.display.set_caption('KBC Pygame')
+        self.screen = pygame.display.set_mode((1366, 768), 0, 32)
+        self.addBackgroudPic()
+        self.font = pygame.font.SysFont('Arial', 25)
+        self.bigFont = pygame.font.SysFont('Arial', 50)
+
+    def addBackgroudPic(self):
+        bg = pygame.image.load("kbc.jpg")
+        bg = pygame.transform.scale(bg, (1366, 768))
+        self.screen.blit(bg, (0, 0)) #To draw surface on screen at given position (x,y) 
+Before Proceeding further let me tell you one thing, all the positional parameters I have used in below code is in relative to the game screen window size.So you have to adjust your positional parameters according to your window size.
+
+Creating First Screen-Game Play Settings
+
+Game Play Instructions Screen
+
+First of all we have to notify users about how to play game. Pygame can detect keyboard events, so we have used onKeyPress for event handling. We can display text on Screen using the render method. We can also add font color and position to text.
+Below is the code snippet for this part for better understanding:-
+
+def gameRules(self):
+        self.addBackgroudPic()
+        readRules = True
+        isPlay=True
+        while readRules:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_p:
+                        readRules = False
+                    if event.key == pygame.K_q:
+                        pygame.quit()
+                        quit()
+            self.displayText("Welcome to KBC Game For Developers",
+                             self.red,
+                             630, 50, True
+                             )
+            self.displayText("Game Rules:-",
+                             self.green,
+                             680, 100, True)
+            self.displayText("Press A/B/C/D to select corresponding options",
+                             self.orange,
+                             680, 150, True)
+            self.displayText("Press P to play or Q to quit.",
+                             self.WHITE,
+                             660, 650, True)
+            # if isPlay:
+            #     playsound("KBCIntro.mp3")
+            #     isPlay = False
+            pygame.display.update()
+
+def displayText(self, text, color, xCordinate, yCordinate=0, isBig=False):
+        if isBig:
+            textSurface = self.bigFont.render(text, True, color)
+        else:
+            textSurface = self.font.render(text, True, color)
+        textRectangle = textSurface.get_rect()
+        textRectangle.center = (xCordinate, yCordinate)
+        self.screen.blit(textSurface, textRectangle)
